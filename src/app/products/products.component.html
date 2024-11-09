@@ -1,0 +1,73 @@
+<h2>Danh sách sản phẩm</h2>
+
+<!-- Dropdown để chọn danh mục -->
+<label>
+  Chọn danh mục:
+  <select [(ngModel)]="selectedCategoryId" (change)="onCategoryChange(selectedCategoryId)">
+    <option value="1">Danh mục 1</option>
+    <option value="2">Danh mục 2</option>
+  </select>
+</label>
+
+<ul>
+  <li *ngFor="let product of products">
+    <img [src]="product.thumbnail" alt="{{ product.name }}" />
+    <div>
+      <h4>{{ product.name }}</h4>
+      <p>{{ product.category }} - {{ product.price | currency }}</p>
+      <button (click)="selectProduct(product)">Chỉnh sửa</button>
+      <button (click)="deleteProduct(product.id)">Xóa</button>
+    </div>
+  </li>
+</ul>
+
+<h3>Thêm sản phẩm mới</h3>
+<form (ngSubmit)="createProduct()">
+  <label>
+    Tên sản phẩm:
+    <input [(ngModel)]="newProduct.name" name="name" required />
+  </label>
+  <label>
+    Danh mục:
+    <select [(ngModel)]="newProduct.category" name="category" required>
+      <option value="1">Danh mục 1</option>
+      <option value="2">Danh mục 2</option>
+    </select>
+  </label>
+  <label>
+    Giá:
+    <input type="number" [(ngModel)]="newProduct.price" name="price" required />
+  </label>
+  <label>
+    Hình ảnh:
+    <input type="text" [(ngModel)]="newProduct.thumbnail" name="thumbnail" placeholder="URL hình ảnh" />
+  </label>
+  <button type="submit">Thêm sản phẩm</button>
+</form>
+
+<div *ngIf="selectedProduct">
+  <h3>Chỉnh sửa sản phẩm</h3>
+  <form (ngSubmit)="updateProduct()">
+    <label>
+      Tên sản phẩm:
+      <input [(ngModel)]="selectedProduct.name" name="editName" required />
+    </label>
+    <label>
+      Danh mục:
+      <select [(ngModel)]="selectedProduct.category" name="editCategory" required>
+        <option value="1">Danh mục 1</option>
+        <option value="2">Danh mục 2</option>
+      </select>
+    </label>
+    <label>
+      Giá:
+      <input type="number" [(ngModel)]="selectedProduct.price" name="editPrice" required />
+    </label>
+    <label>
+      Hình ảnh:
+      <input type="text" [(ngModel)]="selectedProduct.thumbnail" name="editThumbnail" placeholder="URL hình ảnh" />
+    </label>
+    <button type="submit">Cập nhật sản phẩm</button>
+    <button type="button" (click)="selectedProduct = null">Hủy</button>
+  </form>
+</div>
